@@ -4,6 +4,7 @@ const cors = require("cors")
 const bodyParser = require("body-parser")
 const app = express();
 const dotenv = require("dotenv")
+
 const userRoute = require("./Routes/user")
 const authRoute = require("./Routes/auth")
 const productRoute = require("./Routes/product")
@@ -21,22 +22,48 @@ dotenv.config();
 
 
 
+// connect to mongodb 
+const connectDb = async ()=>{
+   try{
+     const conn = await mongoose.connect(process.env.MONGO_O_URL)
+     console.log(`MongoDB connected: ${conn.connection.host}`)
+   }catch(error){
+     console.log(error);
+     process.exit(1)
+   }   
+}
+
+
+
+
+
+
 app.use("/api/users", userRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/products", productRoute)
 app.use("/api/cart", cartRoute)
 app.use("/api/orders", orderRoute)
+
 app.use("/api/checkout", checkOutRoute)
 app.use("/api/uploads", prodImgRoute)
-try{
-    mongoose.connect(process.env.MONGO_O_URL)
-    .then(()=>
-        console.log("db connection succesful")
-    )
-}catch(err){
-   console.log(err)
-}
 
-app.listen(process.env.PORT || 5000, ()=>{
-    console.log("E-commerce server running")
+const PORT = process.env.PORT || 3000
+
+connectDb().then(()=>{
+    app.listen(PORT , ()=>{
+        console.log("E-commerce server running")
+    })
 })
+
+// try{
+//     mongoose.connect(process.env.MONGO_O_URL)
+//     .then(()=>
+//         console.log("db connection succesful")
+//     )
+// }catch(err){
+//    console.log(err)
+// }
+
+// app.listen(process.env.PORT || 5000, ()=>{
+//     console.log("E-commerce server running")
+// })
