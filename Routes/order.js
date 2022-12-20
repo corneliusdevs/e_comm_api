@@ -3,7 +3,7 @@ const {verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToke
 const Order = require("../models/Order")
 
 // CREATE ORDERS
-router.post("/", verifyTokenAndAuthorization, async(req, res)=>{
+router.post("/createorder", verifyTokenAndAuthorization, async(req, res)=>{
 
    if(req.body.userId && req.body.products  && req.body.amount && req.body.address){
       const newOrder = new Order({
