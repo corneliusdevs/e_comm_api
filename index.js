@@ -25,7 +25,7 @@ dotenv.config();
 // connect to mongodb 
 const connectDb = async ()=>{
    try{
-     const conn = await mongoose.connect(process.env.MONGO_O_URL)
+     const conn = await mongoose.connect(process.env.MONGO_L_URL)
      console.log(`MongoDB connected: ${conn.connection.host}`)
    }catch(error){
      console.log(error);
@@ -47,7 +47,7 @@ app.use("/api/orders", orderRoute)
 app.use("/api/checkout", checkOutRoute)
 app.use("/api/uploads", prodImgRoute)
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 
 connectDb().then(()=>{
     app.listen(PORT , ()=>{

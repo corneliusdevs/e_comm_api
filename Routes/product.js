@@ -90,7 +90,8 @@ router.get("/search/:searchString", async(req, res)=>{
 
    try{
        const searchTerm = req.params.searchString.toLowerCase()
- 
+       const pages = req.query.p || 0
+        const productsPerPage = 20
    
     let products = await Product.find({
         $or: [{
@@ -98,7 +99,7 @@ router.get("/search/:searchString", async(req, res)=>{
         }, {
             categories: searchTerm
         }]
-    });
+    }).skip(pages * productsPerPage).limit(productsPerPage);
      
    
        

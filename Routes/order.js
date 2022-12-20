@@ -4,13 +4,23 @@ const Order = require("../models/Order")
 
 // CREATE ORDERS
 router.post("/", verifyTokenAndAuthorization, async(req, res)=>{
-    const newOrder = new Order(req.body)
-    try{
-        const savedOrder = await newOrder.save()
-        return res.status(201).json(savedOrder)
-    }catch(err){
-       return res.status(500).json(err)
-    }
+
+   if(req.body.userId && req.body.products  && req.body.amount && req.body.address){
+      const newOrder = new Order({
+         ...req.body,
+       })
+       try{
+           const savedOrder = await newOrder.save()
+           return res.status(201).json(savedOrder)
+       }catch(err){
+          return res.status(500).json(err)
+       }
+   }else{
+    return res.status(400).json({
+      message: "invalid or incomplete fields"
+    })
+   }
+    
 })
 
 // GET ORDER

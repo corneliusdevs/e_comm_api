@@ -55,7 +55,6 @@ router.post("/login", async(req,res)=>{
 
 //REGISTER ROUTE
 router.post("/register", async (req,res)=>{
-    
     const userExists = await User.find({username: req.body.username.toLowerCase()})
 
     const userExists2 = await User.find({email: req.body.email})
