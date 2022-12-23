@@ -65,8 +65,9 @@ router.post("/register", async (req,res)=>{
        })
     } else{
 
+
         const newUser = new User({
-        username: req.body.username.trim(),
+        username: req.body.username.toLowerCase().trim(),
         email: req.body.email.trim(),
         password: CryptoJS.AES.encrypt(req.body.password.trim(), process.env.PASSWORD_KEY).toString()
     });
