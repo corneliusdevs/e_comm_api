@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken")
 //LOGIN ROUTE
 router.post("/login", async(req,res)=>{
     try{
-        const user = await User.findOne({username: req.body.username.toLowerCase()});
+        const user = await User.findOne({username: req.body.username.toLowerCase().trim()});
         
         // if usernam is invalid
         if(!user){
@@ -22,7 +22,7 @@ router.post("/login", async(req,res)=>{
         const savedPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
          
         // if password is invalid
-        if(savedPassword !== req.body.password){
+        if(savedPassword !== req.body.password.trim()){
             
             return res.status(401).json({
                 mssg: "wrong credentials"
@@ -55,9 +55,9 @@ router.post("/login", async(req,res)=>{
 
 //REGISTER ROUTE
 router.post("/register", async (req,res)=>{
-    const userExists = await User.find({username: req.body.username.toLowerCase()})
+    const userExists = await User.find({username: req.body.username.toLowerCase().trim()})
 
-    const userExists2 = await User.find({email: req.body.email})
+    const userExists2 = await User.find({email: req.body.email.trim()})
     // check if the username already exists to avoid duplicate fields in db
     if(userExists.length !== 0 || userExists2.length !== 0){
        return res.status(501).json({
@@ -66,9 +66,9 @@ router.post("/register", async (req,res)=>{
     } else{
 
         const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: CryptoJS.AES.encrypt(req.body.password, process.env.PASSWORD_KEY).toString()
+        username: req.body.username.trim(),
+        email: req.body.email.trim(),
+        password: CryptoJS.AES.encrypt(req.body.password.trim(), process.env.PASSWORD_KEY).toString()
     });
     
     try{

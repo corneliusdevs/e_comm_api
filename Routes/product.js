@@ -89,7 +89,7 @@ router.get("/:id", async(req, res)=>{
 router.get("/search/:searchString", async(req, res)=>{
 
    try{
-       const searchTerm = req.params.searchString.toLowerCase()
+       const searchTerm = req.params.searchString.toLowerCase().trim()
        const pages = req.query.p || 0
         const productsPerPage = 20
    
