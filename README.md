@@ -1,2 +1,2 @@
-# My Fisrt Api for an E-commerce web app
+# Ecommerce api for Ardornify
 
